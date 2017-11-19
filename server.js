@@ -261,9 +261,9 @@ app.get("/api/imagesearch/:searchQuery", function (req, res) {
   console.log(req);
   var searchQuery = req.params.searchQuery;
   var offset = req.query.offset ? req.query.offset : 10;
-  
+
   //console.log(req.params);
-  
+
   MongoClient.connect(url, function (err, db) {
     if (err) {
       console.log('Unable to connect to the mongoDB server. Error:', err);
@@ -327,7 +327,14 @@ app.get("/api/latest/imagesearch", function (req, res) {
           res.end(JSON.stringify(result));
        } else {
          res.writeHead(200, { 'Content-Type': 'application/json' });
-         result = doc.queries;
+         result = doc.queries.items.map( item => {
+           return {
+            url: item.link,
+            snippet: item.title,
+            thumbnail: item.image.thumbnailLink,
+            context: item.image.contextLink 
+           }
+         });
          res.end(JSON.stringify(result));
         db.close();
        }
