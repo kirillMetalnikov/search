@@ -1,0 +1,46 @@
+<!-- This is a static file -->
+<!-- served from your routes in server.js -->
+
+<!-- You might want to try something fancier: -->
+<!-- html/nunjucks docs: https://mozilla.github.io/nunjucks/ -->
+<!-- pug: https://pugjs.org/ -->
+<!-- haml: http://haml.info/ -->
+<!-- hbs(handlebars): http://handlebarsjs.com/ -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Searche images</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <header>
+      <h1>
+        FreeCodeCamp API: Image search
+      </h1>
+      <div>
+        User stories:
+        I can get the image URLs, alt text and page urls for a set of images relating to a given search string
+      </div>
+    </header>
+
+    <main>
+      <div>
+        <h3>Example search images:</h3>
+        <a href = "https://search-km.glitch.me/api/imagesearch/lolcats%20funny?offset=10">https://search-km.glitch.me/api/imagesearch/lolcats%20funny?offset=10</a><br/>
+        <ul>
+        <li> You can change your quary : "lolcats%20funny"</li>
+        <li> And you can designate "offset"</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Last 10 seacrh quaries:</h3>
+        <a href = "https://search-km.glitch.me/api/latest/imagesearch/">https://search-km.glitch.me/api/latest/imagesearch/</a>
+      </div>
+    </main>
+
+    <footer>
+    </footer>
+
+  </body>
+</html>
