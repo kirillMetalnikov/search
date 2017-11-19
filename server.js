@@ -9,9 +9,9 @@ app.use(express.static('public'));
 var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 var url = process.env.MONGOLAB_URI_SEARCH;
-var collection = "quaries";
+var collection = "queris";
 
-var testRequest = '{
+var testRequest = {
  "kind": "customsearch#search",
  "url": {
   "type": "application/json",
@@ -248,7 +248,7 @@ var testRequest = '{
    }
   }
  ]
-}'
+}
 
 var result = {};
 // http://expressjs.com/en/starter/basic-routing.html
@@ -257,10 +257,13 @@ app.get("/", function (req, res) {
 });
 
 // http://expressjs.com/en/starter/basic-routing.html
-app.get(/\/api\/imagesearch\/(.+)(?offset=(\d+))*/, function (req, res) {
-  var searchQuaery = req.params[0];
-  var offset = req.params[2];
-
+app.get("/api/imagesearch/:searchQuery", function (req, res) {
+  console.log(req);
+  var searchQuery = req.params.searchQuery;
+  var offset = req.query.offset ? req.query.offset : 10;
+  
+  //console.log(req.params);
+  
   MongoClient.connect(url, function (err, db) {
     if (err) {
       console.log('Unable to connect to the mongoDB server. Error:', err);
@@ -278,10 +281,11 @@ app.get(/\/api\/imagesearch\/(.+)(?offset=(\d+))*/, function (req, res) {
           result = {id: 'Unable to find item'};
           res.end(JSON.stringify(result));
         } else {
+     //     console.log(doc)
           if(doc.queries.length >= 10) {
             doc.queries.pop()
           }
-          doc.queries.unshift({when: new Date(), term: searchQuaery});
+          doc.queries.unshift({when: new Date(), term: searchQuery});
           col.updateOne(
             {name: "last"},
             {$set: {queries: doc.queries}},
