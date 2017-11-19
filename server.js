@@ -294,7 +294,14 @@ app.get("/api/imagesearch/:searchQuery", function (req, res) {
             }
           )
           res.writeHead(200, { 'Content-Type': 'application/json' });
-          result = {offset: offset, images: testRequest};
+          result = testRequest.items.map( item => {
+            return {
+             url: item.link,
+             snippet: item.title,
+             thumbnail: item.image.thumbnailLink,
+             context: item.image.contextLink
+            }
+          });
           res.end(JSON.stringify(result));
         }
       })
@@ -327,14 +334,7 @@ app.get("/api/latest/imagesearch", function (req, res) {
           res.end(JSON.stringify(result));
        } else {
          res.writeHead(200, { 'Content-Type': 'application/json' });
-         result = doc.queries.items.map( item => {
-           return {
-            url: item.link,
-            snippet: item.title,
-            thumbnail: item.image.thumbnailLink,
-            context: item.image.contextLink 
-           }
-         });
+         result = doc.queries
          res.end(JSON.stringify(result));
         db.close();
        }
