@@ -59,7 +59,7 @@ app.get("/api/imagesearch/:searchQuery", function (req, res) {
               console.log('Unable to update item. Error:', err);
             }
           )
-          
+     
           request( urlApi + "&start=" + offset + "&q=" + searchQuery, (error, response, body) => {              
                 res.writeHead(200, { 'Content-Type': 'application/json' });
                 result =JSON.parse(body).items.map( item => {
